@@ -1,225 +1,187 @@
-/*  */import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Platform,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-} from 'react-native';
+import React, { Component } from "react";
+import { View, FlatList, Text, Image, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from "react-native";
+import { StyledText } from '../../components'
 import { colors, fonts } from '../../styles';
 
+data = [
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something two"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something three"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something four"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something five"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something six"
+  }
+];
 
-export default class OfferScreen extends React.Component {
-  _getRenderItemFunction = () =>
-    [this.renderRowOne, this.renderRowTwo, this.renderRowThree][
-      this.props.tabIndex
-    ];
-
-  _openArticle = article => {
-    this.props.navigation.navigate({
-      routeName: 'Article',
-      params: { ...article },
-    });
-  };
-
-  renderRowOne = rowData => {
-    const cellViews = rowData.item.map(item => (
-      <TouchableOpacity key={item.id} onPress={() => this._openArticle(item)}>
-        <View style={styles.itemOneContainer}>
-          <View style={styles.itemOneImageContainer}>
-            <Image style={styles.itemOneImage} source={{ uri: item.image }} />
-          </View>
-          <View style={styles.itemOneContent}>
-            <Text style={styles.itemOneTitle} numberOfLines={1}>
-              {item.title}
-            </Text>
-            <Text
-              style={styles.itemOneSubTitle}
-              styleName="collapsible"
-              numberOfLines={3}
-            >
-              {item.subtitle}
-            </Text>
-            <Text style={styles.itemOnePrice} numberOfLines={1}>
-              {item.price}
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    ));
-    return (
-      <View key={rowData.item[0].id} style={styles.itemOneRow}>
-        {cellViews}
-      </View>
-    );
-  };
+export default class OfferScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: data
+    };
+  }
 
   render() {
-    const groupedData =
-    this.props.tabIndex === 0
-      ? GridRow.groupByRows(this.props.data, 2)
-      : this.props.data;
-      return (
-      <View style={styles.container}>
-        
+    return (
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+
+
+        <Text>Most Popular</Text>
+
         <FlatList
-          keyExtractor={item =>
-            item.id
-              ? `${this.props.tabIndex}-${item.id}`
-              : `${item[0] && item[0].id}`
-          }
-          style={{ backgroundColor: colors.white, paddingHorizontal: 15 }}
-          data={groupedData}
-          renderItem={this._getRenderItemFunction()}
+          horizontal
+          data={this.state.data}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item: rowData }) => {
+            return (
+
+
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate({ routeName: 'Charts' })}
+                style={styles.item}
+              >
+                <Image
+                  source={{ uri: rowData.imageUrl }}
+                  style={styles.iconImage}
+                />
+                <Text style={styles.itemText}>{rowData.title}</Text>
+              </TouchableOpacity>
+
+
+
+            );
+          }}
+          keyExtractor={(item, index) => index}
         />
-      </View>
+
+
+        <Text>Favourites</Text>
+
+        <FlatList
+          horizontal
+          data={this.state.data}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item: rowData }) => {
+            return (
+
+
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate({ routeName: 'Charts' })}
+                style={styles.item}
+              >
+                <Image
+                  source={{ uri: rowData.imageUrl }}
+                  style={styles.iconImage}
+                />
+                <Text style={styles.itemText}>{rowData.title}</Text>
+              </TouchableOpacity>
+
+
+
+            );
+          }}
+          keyExtractor={(item, index) => index}
+        />
+
+        <Text>Dinings</Text>
+
+        <FlatList
+          horizontal
+          data={this.state.data}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item: rowData }) => {
+            return (
+
+
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate({ routeName: 'Charts' })}
+                style={styles.item}
+              >
+                <Image
+                  source={{ uri: rowData.imageUrl }}
+                  style={styles.iconImage}
+                />
+                <Text style={styles.itemText}>{rowData.title}</Text>
+              </TouchableOpacity>
+
+
+
+            );
+          }}
+          keyExtractor={(item, index) => index}
+        />
+
+
+        <Text>Shoppings</Text>
+
+        <FlatList
+          horizontal
+          data={this.state.data}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item: rowData }) => {
+            return (
+
+
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate({ routeName: 'Charts' })}
+                style={styles.item}
+              >
+                <Image
+                  source={{ uri: rowData.imageUrl }}
+                  style={styles.iconImage}
+                />
+                <Text style={styles.itemText}>{rowData.title}</Text>
+              </TouchableOpacity>
+
+
+
+            );
+          }}
+          keyExtractor={(item, index) => index}
+        />
+
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+
   container: {
-    flex: 1,
     backgroundColor: colors.white,
-    flexDirection:"row"
+    paddingTop: 1,
   },
-  tabsContainer: {
-    alignSelf: 'stretch',
-    marginTop: 30,
-  },
-  itemOneContainer: {
+  iconImage: {
+    marginLeft: 5,
+    width: Dimensions.get('window').width / 3 - 10,
+  }
+  ,
+  item: {
     flex: 1,
-    width: Dimensions.get('window').width / 2 - 40,
-  },
-  itemOneImageContainer: {
-    borderRadius: 3,
-    overflow: 'hidden',
-  },
-  itemOneImage: {
-    height: 200,
-    width: Dimensions.get('window').width / 2 - 40,
-  },
-  itemOneTitle: {
-    fontFamily: fonts.primaryRegular,
-    fontSize: 15,
-  },
-  itemOneSubTitle: {
-    fontFamily: fonts.primaryRegular,
-    fontSize: 13,
-    color: '#B2B2B2',
-    marginVertical: 3,
-  },
-  itemOnePrice: {
-    fontFamily: fonts.primaryRegular,
-    fontSize: 15,
-  },
-  itemOneRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 10,
-  },
-  itemOneContent: {
-    marginTop: 5,
-    marginBottom: 10,
-  },
-  itemTwoContainer: {
-    paddingBottom: 10,
-    backgroundColor: 'white',
-    marginVertical: 5,
-  },
-  itemTwoContent: {
-    padding: 20,
-    position: 'relative',
-    marginHorizontal: Platform.OS === 'ios' ? -15 : 0,
-    height: 150,
-  },
-  itemTwoTitle: {
-    color: colors.white,
-    fontFamily: fonts.primaryBold,
-    fontSize: 20,
-  },
-  itemTwoSubTitle: {
-    color: colors.white,
-    fontFamily: fonts.primaryRegular,
-    fontSize: 15,
-    marginVertical: 5,
-  },
-  itemTwoPrice: {
-    color: colors.white,
-    fontFamily: fonts.primaryBold,
-    fontSize: 20,
-  },
-  itemTwoImage: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  itemTwoOverlay: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundColor: '#6271da',
-    opacity: 0.5,
-  },
-  itemThreeContainer: {
-    backgroundColor: 'white',
-  },
-  itemThreeSubContainer: {
-    flexDirection: 'row',
-    paddingVertical: 10,
-  },
-  itemThreeImage: {
-    height: 100,
-    width: 100,
-  },
-  itemThreeContent: {
-    flex: 1,
-    paddingLeft: 15,
-    justifyContent: 'space-between',
-  },
-  itemThreeBrand: {
-    fontFamily: fonts.primaryRegular,
-    fontSize: 14,
-    color: '#617ae1',
-  },
-  itemThreeTitle: {
-    fontFamily: fonts.primaryBold,
-    fontSize: 16,
-    color: '#5F5F5F',
-  },
-  itemThreeSubtitle: {
-    fontFamily: fonts.primaryRegular,
-    fontSize: 12,
-    color: '#a4a4a4',
-  },
-  itemThreeMetaContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    height: Dimensions.get('window').height / 4 - 10,
+    paddingVertical: 20,
+    borderColor: colors.primaryLight,
+    borderWidth: 1,
+    borderRadius: 5,
     alignItems: 'center',
+    justifyContent: 'space-around',
+    marginHorizontal: 3,
   },
-  itemThreePrice: {
-    fontFamily: fonts.primaryRegular,
-    fontSize: 15,
-    color: '#5f5f5f',
-    textAlign: 'right',
-  },
-  itemThreeHr: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#e3e3e3',
-    marginRight: -15,
-  },
-  badge: {
-    backgroundColor: colors.secondary,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-});
+})

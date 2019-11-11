@@ -9,7 +9,7 @@ import menuList from './menuItems'
 
 import { Button, RadioGroup, Dropdown, StyledText } from '../../components';
 
-export default class MoreScreen extends React.Component {
+export default class DetailScreen extends React.Component {
 
   renderSeparator = () => {
     return (
